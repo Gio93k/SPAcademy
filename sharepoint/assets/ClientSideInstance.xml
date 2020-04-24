@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <ClientSideComponentInstance
+        Title="FooterHeaderGioara"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ComponentId="7173841a-6bdb-40a8-be93-79809e5f170d"
+        Properties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </ClientSideComponentInstance>
+</Elements>

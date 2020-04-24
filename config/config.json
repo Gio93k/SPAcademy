@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "hello-world-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/helloWorld/HelloWorldWebPart.js",
+          "manifest": "./src/webparts/helloWorld/HelloWorldWebPart.manifest.json"
+        }
+      ]
+    },
+    "hello-react-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/helloReact/HelloReactWebPart.js",
+          "manifest": "./src/webparts/helloReact/HelloReactWebPart.manifest.json"
+        }
+      ]
+    },
+    "footer-header-gioara-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/footerHeaderGioara/FooterHeaderGioaraApplicationCustomizer.js",
+          "manifest": "./src/extensions/footerHeaderGioara/FooterHeaderGioaraApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "HelloWorldWebPartStrings": "lib/webparts/helloWorld/loc/{locale}.js",
+    "HelloReactWebPartStrings": "lib/webparts/helloReact/loc/{locale}.js",
+    "FooterHeaderGioaraApplicationCustomizerStrings": "lib/extensions/footerHeaderGioara/loc/{locale}.js"
+  }
+}

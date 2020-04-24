@@ -38,7 +38,7 @@ export default class FooterHeaderGioaraApplicationCustomizer
     }
 
     
-      // other init code may be present
+    //  other init code may be present
       pnpSetup({
         spfxContext: this.context
       });

@@ -9,7 +9,7 @@
   },
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://contoso.sharepoint.com/sites/mySite/SitePages/myPage.aspx",
+      "pageUrl": "https://m365x013432.sharepoint.com/sites/AvanadeSP/SitePages/Home.aspx",
       "customActions": {
         "7173841a-6bdb-40a8-be93-79809e5f170d": {
           "location": "ClientSideExtension.ApplicationCustomizer",
@@ -20,7 +20,7 @@
       }
     },
     "footerHeaderGioara": {
-      "pageUrl": "https://contoso.sharepoint.com/sites/mySite/SitePages/myPage.aspx",
+      "pageUrl": "https://m365x013432.sharepoint.com/sites/AvanadeSP/SitePages/Home.aspx",
       "customActions": {
         "7173841a-6bdb-40a8-be93-79809e5f170d": {
           "location": "ClientSideExtension.ApplicationCustomizer",

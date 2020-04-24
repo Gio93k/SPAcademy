@@ -1,12 +1,17 @@
 import { override } from '@microsoft/decorators';
 import { Log } from '@microsoft/sp-core-library';
 import {
-  BaseApplicationCustomizer
+  BaseApplicationCustomizer, PlaceholderName
 } from '@microsoft/sp-application-base';
-import { Dialog } from '@microsoft/sp-dialog';
+
+import Menu from './Components/menu';
+import MenuHeader from './Components/MenuHeader';
 
 import * as strings from 'FooterHeaderGioaraApplicationCustomizerStrings';
+import * as ReactDom from 'react-dom';
+import { setup as pnpSetup } from "@pnp/common";
 
+import * as React from 'react';
 const LOG_SOURCE: string = 'FooterHeaderGioaraApplicationCustomizer';
 
 /**
@@ -32,8 +37,32 @@ export default class FooterHeaderGioaraApplicationCustomizer
       message = '(No properties were provided.)';
     }
 
-    Dialog.alert(`Hello from ${strings.Title}:\n\n${message}`);
+    
+      // other init code may be present
+      pnpSetup({
+        spfxContext: this.context
+      });
+  
 
+    var topPlaceholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Bottom);
+    
+    var BottomPlaceholder = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top); //sono invertiti
+
+    const element: React.ReactElement = React.createElement(
+      Menu,
+      {
+
+      }
+    );
+    const header: React.ReactElement = React.createElement(
+      MenuHeader,
+      {
+
+      }
+    );
+    ReactDom.render(element, topPlaceholder.domElement);
+    ReactDom.render(header, BottomPlaceholder.domElement);
+    
     return Promise.resolve();
   }
 }

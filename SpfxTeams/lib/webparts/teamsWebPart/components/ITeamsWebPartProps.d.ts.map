@@ -1,0 +1,1 @@
+{"version":3,"file":"ITeamsWebPartProps.d.ts","sourceRoot":"","sources":["../../../../src/webparts/teamsWebPart/components/ITeamsWebPartProps.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,4BAA4B,CAAC;AAE5D,MAAM,WAAW,kBAAkB;IACjC,WAAW,EAAE,MAAM,CAAC;IACpB,QAAQ,EAAC,cAAc,CAAC;CACzB"}

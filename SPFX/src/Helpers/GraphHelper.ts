@@ -24,5 +24,13 @@ export class GraphHelper {
             });
     }
 
+    public static getUserGroups() {
+        return GraphHelper.client.api("/me/memberOf").get()
+            .then((value) => { return value; })
+            .catch((err) => {
+                console.error(err);
+                return undefined;
+            });
+    }
 
 }

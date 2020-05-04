@@ -10,12 +10,27 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'MarvelWebPartWebPartStrings';
 import MarvelWebPart from './components/MarvelWebPart';
 import { IMarvelWebPartProps } from './components/IMarvelWebPartProps';
+import { sp } from '@pnp/sp';
 
 export interface IMarvelWebPartWebPartProps {
   description: string;
 }
 
-export default class MarvelWebPartWebPart extends BaseClientSideWebPart <IMarvelWebPartWebPartProps> {
+export default class MarvelWebPartWebPart extends BaseClientSideWebPart<IMarvelWebPartWebPartProps> {
+
+  public async onInit() {
+    return super.onInit().then(async (_) => {
+
+      sp.setup({
+        spfxContext: this.context
+      });
+      // await PnpJSHelper.init(this.context.msGraphClientFactory);
+      // return;
+    });
+  }
+
+
+
 
   public render(): void {
     const element: React.ReactElement<IMarvelWebPartProps> = React.createElement(

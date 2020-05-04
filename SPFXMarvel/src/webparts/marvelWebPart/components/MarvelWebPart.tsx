@@ -4,27 +4,24 @@ import { IMarvelWebPartProps } from './IMarvelWebPartProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 
-
-
-
-
 export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, {}> {
+
+  constructor(props) {
+    super(props);
+  }
+
+
+
   public render(): React.ReactElement<IMarvelWebPartProps> {
+
+    const iron_img: any = require('../assets/portrait/iron_man.png'); // importa l'immagine da visualizzare
     return (
       <div className={styles.marvelWebPart}>
-        <div className={styles.container}>
-          <div className={styles.row}>
-            <div className={styles.column}>
-              <span className={styles.title}>Welcome to SharePoint!</span>
-              <p className={styles.subTitle}>Customize SharePoint experiences using Web Parts.</p>
-              <p className={styles.description}>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={styles.button}>
-                <span className={styles.label}>Learn more</span>
-              </a>
-            </div>
-          </div>
-        </div>
+
+        <img src={iron_img} alt="iron_man" width="150" height="150" />
+
       </div>
+
     );
   }
 }

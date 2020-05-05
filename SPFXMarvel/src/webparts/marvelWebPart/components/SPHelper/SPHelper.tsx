@@ -7,7 +7,7 @@ import "@pnp/sp/files";
 
 export class SPHelper {
 
-    public static postListItem(nome: string, tipo: string, scelta: string, url: string) {
+    public static addFile(nome: string, tipo: string, scelta: string, url: string) {
 
         const listItem = {
             NomePersonaggio: nome,

@@ -14,19 +14,21 @@ function DettagliPersonaggio(props) {
   if (!props.warn) return null;
   return (
     <div>
-      Dettagli personaggio!!
+      <p> {props.nomePersonaggio}</p>
+      <p> {props.tipoPersonaggio}</p>
+      <p> {props.avengers}</p>
     </div>
   )
 }
 export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, IMarvelWebPartPropsState> {
-
+  public url = "/sites/Gioara/Doc";
   constructor(props) {
     super(props);
     this.state = {
       showDetailsPanel: false,
       nome: '',
       tipo: '',
-      scelta: ''
+      scelta: 'si'
     };
     this.handleToggleClick = this.handleToggleClick.bind(this);
 
@@ -54,27 +56,52 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
     this.setState({ scelta: event.target.value });
   }
 
-  handleToggleClick(event) {
-    this.setState(state => ({
-      showDetailsPanel: !state.showDetailsPanel
-    }));
+  async handleToggleClick(event) {
+    let nomefile = event.currentTarget.alt;
 
+    const returnfile = await SPHelper.readListItem(this.url, nomefile);
+
+    // switch(nomefile)
+    //   case iron_man.json:
+    // }
+    this.setState(state => ({
+      showDetailsPanel: !state.showDetailsPanel,
+      nome: returnfile.NomePersonaggio,
+      tipo: returnfile.Tipo,
+      scelta: returnfile.Avengers,
+    }));
   }
 
   async handleSubmit(event) {
-    let url = "/sites/Gioara/Doc";
+
     event.preventDefault();
-    const item = await SPHelper.postListItem(this.state.nome, this.state.tipo, this.state.scelta, url);
+    const item = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
   }
 
   public render(): React.ReactElement<IMarvelWebPartProps> {
 
     const iron_img: any = require('../assets/portrait/iron_man.png'); // importa l'immagine da visualizzare
+    const quake: any = require('../assets/portrait/quake.png'); // importa l'immagine da visualizzare
+    const spiderman: any = require('../assets/portrait/spiderman.png'); // importa l'immagine da visualizzare
+
     return (
       <div className={styles.marvelWebPart}>
-
-        <img src={iron_img} alt="iron_man" width="150" height="150" onClick={this.handleToggleClick} />
-        <DettagliPersonaggio warn={this.state.showDetailsPanel} />
+        <table>
+          <tr>
+            <th>  <img src={iron_img} alt="ironMan" width="150" height="150" onClick={this.handleToggleClick} />
+            </th>
+            <th><img src={quake} alt="quake" width="150" height="150" onClick={this.handleToggleClick} /></th>
+            <th><img src={spiderman} alt="spiderman" width="150" height="150" onClick={this.handleToggleClick} /></th>
+            <td>        <DettagliPersonaggio warn={this.state.showDetailsPanel} nomePersonaggio={this.state.nome} tipoPersonaggio={this.state.tipo} avengers={this.state.scelta} />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <div> </div>
         <br />  <br />  <br />  <br />
         <form onSubmit={this.handleSubmit}>
           <div>
@@ -105,7 +132,7 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
           <br />
           <label>
             Avengers:
-            <select onChange={this.handleChangeScelta}>
+            <select value={this.state.scelta} onChange={this.handleChangeScelta}>
               <option value="si" >Si</option>
               <option value="no" >No</option>
 

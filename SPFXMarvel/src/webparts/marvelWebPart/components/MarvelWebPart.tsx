@@ -76,6 +76,7 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
 
     event.preventDefault();
     const item = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
+    const itemL = await SPHelper.writeListItem(this.state.nome, this.state.tipo, this.state.scelta);
   }
 
   public render(): React.ReactElement<IMarvelWebPartProps> {

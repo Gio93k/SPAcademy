@@ -33,4 +33,21 @@ export class SPHelper {
                 return undefined;
             });
     }
+
+    public static writeListItem(nome: string, tipo: string, scelta: string) {
+
+        return sp.web.lists.getByTitle("DettagliPG").items.add({
+            Title: nome,
+            Tipo2: tipo,
+            Scelta: scelta
+        })
+            .then((value) => { return true; })
+            .catch((err) => {
+                console.error(err);
+                return undefined;
+            });
+    }
+
+
+
 }

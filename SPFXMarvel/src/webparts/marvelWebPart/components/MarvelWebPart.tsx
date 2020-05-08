@@ -114,6 +114,7 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
             <td>  <DettagliPersonaggio warn={this.state.showDetailsPanel} nomePersonaggio={this.state.nome} tipoPersonaggio={this.state.tipo} avengers={this.state.scelta} />
             </td>
           </tr>
+
           <tr>
             <td> </td>
             <td></td>

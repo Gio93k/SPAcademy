@@ -34,9 +34,9 @@ export class SPHelper {
             });
     }
 
-    public static writeListItem(nome: string, tipo: string, scelta: string) {
+    public static writeListItem(nome: string, tipo: string, scelta: string, nomeLista: string) {
 
-        return sp.web.lists.getByTitle("DettagliPG").items.add({
+        return sp.web.lists.getByTitle(nomeLista).items.add({
             Title: nome,
             Tipo2: tipo,
             Avengers: scelta
@@ -48,6 +48,7 @@ export class SPHelper {
             });
     }
 
+
     public static readListItem2(nomeLista: string) {
         return sp.web.lists.getByTitle(nomeLista).items
             .expand("File")
@@ -58,10 +59,19 @@ export class SPHelper {
                 console.error(err);
                 return undefined;
             });
-
-
     }
 
+    public static readListItemImg(nomeLista: string, Label: string) {
+        return sp.web.lists.getByTitle(nomeLista).items
+            .select("Title", "Tipo2", "Avengers", "Label")
+            .filter("Label eq '" + Label + "' ")
+            .get()
+            .then((value) => { return value; })
+            .catch((err) => {
+                console.error(err);
+                return undefined;
+            });
+    }
 
 
 

@@ -10,6 +10,7 @@ export interface IMarvelWebPartPropsState {
   tipo: string;
   scelta: string;
   items?: any[];
+  _itemImgCLick?: any[];
 }
 function DettagliPersonaggio(props) {
   if (!props.warn) return null;
@@ -73,21 +74,25 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
   async handleToggleClick(event) {
     let nomefile = event.currentTarget.alt;
     // posso recuperarmi la foto con event.currentTarget.src passarla poi ad un "shophoto"
-    const returnfile = await SPHelper.readListItem(this.url, nomefile);
-
+    // const returnfile = await SPHelper.readListItem(this.url, nomefile);
+    const _itemImgCLick = await SPHelper.readListItemImg("DettagliPG", nomefile);
     this.setState(state => ({
-      showDetailsPanel: !state.showDetailsPanel,
-      nome: returnfile.NomePersonaggio,
-      tipo: returnfile.Tipo,
-      scelta: returnfile.Avengers,
+      showDetailsPanel: state.showDetailsPanel ? state.showDetailsPanel : !state.showDetailsPanel,
+      nome: _itemImgCLick[0].Title,
+      tipo: _itemImgCLick[0].Tipo2,
+      scelta: _itemImgCLick[0].Avengers,
     }));
   }
 
   async handleSubmit(event) {
-
+    var nomeLista = "DettagliPG";
     event.preventDefault();
-    const item2 = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
-    const itemL = await SPHelper.writeListItem(this.state.nome, this.state.tipo, this.state.scelta);
+    // const item2 = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
+    const writeList = SPHelper.writeListItem(this.state.nome, this.state.tipo, this.state.scelta, nomeLista);
+
+
+
+    // this.setState({ _itemImgCLick: _itemImgCLick });
   }
 
   public render(): React.ReactElement<IMarvelWebPartProps> {

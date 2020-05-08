@@ -9,6 +9,7 @@ export interface IMarvelWebPartPropsState {
   nome: string;
   tipo: string;
   scelta: string;
+  items?: any[];
 }
 function DettagliPersonaggio(props) {
   if (!props.warn) return null;
@@ -20,6 +21,8 @@ function DettagliPersonaggio(props) {
     </div>
   )
 }
+
+
 export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, IMarvelWebPartPropsState> {
   public url = "/sites/Gioara/Doc";
   constructor(props) {
@@ -44,6 +47,17 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  async componentDidMount() {
+    var nomeLista = "Marvel";
+    const _item = await SPHelper.readListItem2(nomeLista);
+
+    this.setState({ items: _item });
+
+    //Dal mount se non cambia lo stato, non ci va nel render, cambiando lo stato, visto che cmq cambia, ci va e carica le modifiche 
+    //fatte a lo stato 
+
+  }
+
   handleChangeTipo(event) {
     this.setState({ tipo: event.target.value });
   }
@@ -58,12 +72,9 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
 
   async handleToggleClick(event) {
     let nomefile = event.currentTarget.alt;
-
+    // posso recuperarmi la foto con event.currentTarget.src passarla poi ad un "shophoto"
     const returnfile = await SPHelper.readListItem(this.url, nomefile);
 
-    // switch(nomefile)
-    //   case iron_man.json:
-    // }
     this.setState(state => ({
       showDetailsPanel: !state.showDetailsPanel,
       nome: returnfile.NomePersonaggio,
@@ -75,34 +86,45 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
   async handleSubmit(event) {
 
     event.preventDefault();
-    const item = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
+    const item2 = await SPHelper.addFile(this.state.nome, this.state.tipo, this.state.scelta, this.url);
     const itemL = await SPHelper.writeListItem(this.state.nome, this.state.tipo, this.state.scelta);
   }
 
   public render(): React.ReactElement<IMarvelWebPartProps> {
+    /*Per il caricamento in locale*/
+    // const iron_img: any = require('../assets/portrait/iron_man.png'); // importa l'immagine da visualizzare
+    // const quake: any = require('../assets/portrait/quake.png'); // importa l'immagine da visualizzare
+    // const spiderman: any = require('../assets/portrait/spiderman.png'); // importa l'immagine da visualizzare
+    // const quakedett: any = require('../assets/portrait/quakedett.png'); // importa l'immagine da visualizzare
 
-    const iron_img: any = require('../assets/portrait/iron_man.png'); // importa l'immagine da visualizzare
-    const quake: any = require('../assets/portrait/quake.png'); // importa l'immagine da visualizzare
-    const spiderman: any = require('../assets/portrait/spiderman.png'); // importa l'immagine da visualizzare
+    /*  caricamento dell'url a manina, per vede se funziona.*/
+    // var quake = "https://m365x013432.sharepoint.com/sites/Gioara/SiteAssets/quake.png";
+    // var iron_img = "https://m365x013432.sharepoint.com/sites/Gioara/SiteAssets/iron_man.png";
+    // var spiderman = "https://m365x013432.sharepoint.com/sites/Gioara/SiteAssets/spiderman.png";
+
 
     return (
       <div className={styles.marvelWebPart}>
-        <table>
+        {this.state.items != undefined ? <table>
           <tr>
-            <th>  <img src={iron_img} alt="ironMan" width="150" height="150" onClick={this.handleToggleClick} />
+            <th>  <img src={this.state.items[0].File.ServerRelativeUrl} alt={this.state.items[0].Label} width="150" height="150" onClick={this.handleToggleClick} />
             </th>
-            <th><img src={quake} alt="quake" width="150" height="150" onClick={this.handleToggleClick} /></th>
-            <th><img src={spiderman} alt="spiderman" width="150" height="150" onClick={this.handleToggleClick} /></th>
-            <td>        <DettagliPersonaggio warn={this.state.showDetailsPanel} nomePersonaggio={this.state.nome} tipoPersonaggio={this.state.tipo} avengers={this.state.scelta} />
+            <th><img src={this.state.items[1].File.ServerRelativeUrl} alt={this.state.items[1].Label} width="150" height="150" onClick={this.handleToggleClick} /></th>
+            <th><img src={this.state.items[2].File.ServerRelativeUrl} alt={this.state.items[2].Label} width="150" height="150" onClick={this.handleToggleClick} /></th>
+            <td>  <DettagliPersonaggio warn={this.state.showDetailsPanel} nomePersonaggio={this.state.nome} tipoPersonaggio={this.state.tipo} avengers={this.state.scelta} />
             </td>
           </tr>
+
+          for
+
           <tr>
-            <td></td>
+            <td> </td>
             <td></td>
             <td></td>
           </tr>
-        </table>
-        <div> </div>
+        </table> : <p> Loading... </p>}
+
+
         <br />  <br />  <br />  <br />
         <form onSubmit={this.handleSubmit}>
           <div>

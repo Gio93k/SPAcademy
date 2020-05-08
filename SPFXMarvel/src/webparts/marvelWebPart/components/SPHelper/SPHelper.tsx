@@ -39,7 +39,7 @@ export class SPHelper {
         return sp.web.lists.getByTitle("DettagliPG").items.add({
             Title: nome,
             Tipo2: tipo,
-            Scelta: scelta
+            Avengers: scelta
         })
             .then((value) => { return true; })
             .catch((err) => {
@@ -47,6 +47,21 @@ export class SPHelper {
                 return undefined;
             });
     }
+
+    public static readListItem2(nomeLista: string) {
+        return sp.web.lists.getByTitle(nomeLista).items
+            .expand("File")
+            .select("Label", "File/ServerRelativeUrl", "File/Name")
+            .get()
+            .then((value) => { return value; })
+            .catch((err) => {
+                console.error(err);
+                return undefined;
+            });
+
+
+    }
+
 
 
 

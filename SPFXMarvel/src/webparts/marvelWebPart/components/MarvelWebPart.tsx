@@ -54,7 +54,7 @@ export default class MarvelWebPart extends React.Component<IMarvelWebPartProps, 
     this.setState({ items: _item });
 
     //Dal mount se non cambia lo stato, non ci va nel render, cambiando lo stato, visto che cmq cambia, ci va e carica le modifiche 
-    //fatte a lo stato 
+    //fatte allo stato 
 
   }
 

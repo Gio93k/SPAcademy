@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "drug-and-drop-web-part-client-side-solution",
+    "id": "09acfa4e-153f-40fb-b3e2-f20b9590caf6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/drug-and-drop-web-part.sppkg"
+  }
+}

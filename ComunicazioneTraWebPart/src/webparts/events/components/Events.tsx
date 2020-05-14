@@ -3,10 +3,11 @@ import styles from './Events.module.scss';
 import { IEventsProps } from './IEventsProps';
 import { IEventsState } from './IEventsState';
 import { IEventItem } from "../../../data";
-import { sp } from "@pnp/sp";
+import { sp } from "@pnp/sp/";
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 import { ListView, SelectionMode } from "@pnp/spfx-controls-react/lib/ListView";
+import { SPHelper } from './Helper/Helper';
 
 /**
  * Events component
@@ -33,66 +34,39 @@ export class Events extends React.Component<IEventsProps, IEventsState> {
     this.props.onEventSelected(event[0]);
   }
 
-  public componentDidMount(): void {
+  public async componentDidMount() {
     // indicate that the component is loading data
-    this.setState({
-      loading: true
-    });
+    let nomeLista = "DettagliPG";
+    const _item = await SPHelper.getItemFromList(nomeLista);
 
     this.setState({
       loading: false,
-      events: [{
-        name: 'Tampa Home Show',
-        city: 'Tampa, FL',
-        address: '333 S Franklin St',
-        organizerName: 'Grady Archie',
-        organizerEmail: 'GradyA@contoso.OnMicrosoft.com',
-        date: '2018-05-29T00:00:00Z'
-      },
-      {
-        name: 'Custom Electronic Design and Installation Association (CEDIA)',
-        city: 'San Diego, CA',
-        address: '111 W Harbor Dr',
-        organizerName: 'Megan Bowen',
-        organizerEmail: 'MeganB@contoso.OnMicrosoft.com',
-        date: '2018-06-15T00:00:00Z'
-      },
-      {
-        name: 'Design Automation Conference (DAC)',
-        city: 'San Francisco, CA',
-        address: '747 Howard St Fl 5',
-        organizerName: 'Irvin Sayers',
-        organizerEmail: 'IrvinSB@contoso.OnMicrosoft.com',
-        date: '2018-07-05T00:00:00Z'
-      }],
-      error: undefined
+      events: _item.map(i => {
+        return {
+          name: i.Title,
+          Tipo: i.Tipo2,
+          Avengers: i.Avengers,
+        };
+      })
     });
+    //   events: [{
+    //     name: _item[0].Title,
+    //     Tipo: _item[0].Tipo2,
+    //     Avengers: _item[0].Avengers,
+    //   },
+    //   {
+    //     name: _item[1].Title,
+    //     Tipo: _item[1].Tipo2,
+    //     Avengers: _item[1].Avengers,
+    //   },
+    //   {
+    //     name: _item[2].Title,
+    //     Tipo: _item[2].Tipo2,
+    //     Avengers: _item[2].Avengers,
+    //   }],
+    //   error: undefined
+    // });
 
-    // load information about events from the SharePoint list
-    // sp.web
-    //   .getList(`${this.props.siteUrl}/Lists/CompanyEvents`)
-    //   .items.getAll()
-    //   .then((items: IEventItem[]): void => {
-    //     this.setState({
-    //       loading: false,
-    //       events: items.map(i => {
-    //         return {
-    //           date: i.PnPEventDate,
-    //           name: i.Title,
-    //           city: i.PnPCity,
-    //           address: i.PnPAddress,
-    //           organizerName: i.PnPOrganizerName,
-    //           organizerEmail: i.PnPOrganizerEmail
-    //         };
-    //       })
-    //     });
-    //   }, (error: any): void => {
-    //     // communicate error
-    //     this.setState({
-    //       loading: false,
-    //       error: error
-    //     });
-    //   });
   }
 
   public render(): React.ReactElement<IEventsProps> {
@@ -100,40 +74,46 @@ export class Events extends React.Component<IEventsProps, IEventsState> {
     const { displayMode, title, updateProperty } = this.props;
 
     return (
-      <div className={styles.events}>
+      <div className={styles.events} >
         <WebPartTitle displayMode={displayMode}
           title={title}
           updateProperty={updateProperty} />
         {loading &&
           <Spinner size={SpinnerSize.large} label='Loading events...' />}
-        {!loading &&
+        {
+          !loading &&
           error &&
-          <div className={styles.error}>The following error occurred while loading events: <span className={styles.msg}>{error}</span></div>}
-        {!loading &&
+          <div className={styles.error}>The following error occurred while loading events: <span className={styles.msg}>{error}</span></div>
+        }
+        {
+          !loading &&
           !error &&
           events.length === 0 &&
-          <div className={styles.info}>No events found</div>}
-        {!loading &&
+          <div className={styles.info}>No events found</div>
+        }
+        {
+          !loading &&
           events.length > 0 &&
           <ListView
             items={events}
             viewFields={[
               {
                 name: 'name',
-                displayName: 'Event',
+                displayName: 'Elenco personaggi',
                 sorting: true
               },
-              {
-                name: 'city',
-                displayName: 'Location',
-                sorting: true,
-                minWidth: 100
-              }
+              // {
+              //   name: 'city',
+              //   displayName: 'Location',
+              //   sorting: true,
+              //   minWidth: 100
+              // }
             ]}
             compact={true}
             selectionMode={SelectionMode.single}
-            selection={this._getSelection} />}
-      </div>
+            selection={this._getSelection} />
+        }
+      </div >
     );
   }
 }

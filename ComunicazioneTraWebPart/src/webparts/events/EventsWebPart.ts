@@ -83,7 +83,7 @@ export default class EventsWebPart extends BaseClientSideWebPart<IEventsWebPartP
       case 'event':
         return this._selectedEvent;
       case 'location':
-        return this._selectedEvent ? { city: this._selectedEvent.city, address: this._selectedEvent.address } : undefined;
+        return this._selectedEvent ? { city: this._selectedEvent.Tipo, address: this._selectedEvent.Avengers } : undefined;
     }
 
     throw new Error('Bad property id');

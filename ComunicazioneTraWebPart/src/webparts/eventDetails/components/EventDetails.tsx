@@ -26,7 +26,7 @@ export class EventDetails extends React.Component<IEventDetailsProps, {}> {
             onConfigure={onConfigure} />}
         {!needsConfiguration &&
           eventData &&
-          (!eventData.name || !eventData.address) &&
+          (!eventData.name || !eventData.Avengers) &&
           <Placeholder
             iconName='Edit'
             iconText='Configure your web part'
@@ -42,11 +42,9 @@ export class EventDetails extends React.Component<IEventDetailsProps, {}> {
         {!needsConfiguration &&
           eventData &&
           <ul>
-            <li><Label>Event name</Label> {eventData.name}</li>
-            <li><Label>City</Label> {eventData.city}</li>
-            <li><Label>Address</Label> {eventData.address}</li>
-            <li><Label>Organizer</Label> <Icon iconName='Mail' /> <a href={`mailto:${eventData.organizerEmail}`}>{eventData.organizerName}</a></li>
-            <li><Label>Date</Label> {new Date(eventData.date).toLocaleDateString()}</li>
+            <li><Label>Nome personaggio</Label> {eventData.name}</li>
+            <li><Label>Tipo</Label> {eventData.Tipo}</li>
+            <li><Label>E' un avengers?</Label> {eventData.Avengers}</li>
           </ul>}
       </div>
     );

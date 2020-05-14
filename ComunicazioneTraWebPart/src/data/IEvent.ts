@@ -3,11 +3,12 @@ import { ILocation } from ".";
 /**
  * Represents event
  */
-export interface IEvent extends ILocation {
+//export interface IEvent extends ILocation {
+export interface IEvent {
     /**
      * The start date of the event
      */
-    date: string;
+    Tipo: string;
     /**
      * The name of the event
      */
@@ -15,9 +16,9 @@ export interface IEvent extends ILocation {
     /**
      * The e-mail address of the person organizing the event
      */
-    organizerEmail: string;
+    Avengers: string;
     /**
      * The name of the person organizing the event
      */
-    organizerName: string;
+    // organizerName: string;
 }

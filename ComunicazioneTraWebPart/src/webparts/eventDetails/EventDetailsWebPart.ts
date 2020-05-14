@@ -7,19 +7,19 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'CommunicationWebpartStartWebPartStrings';
-import CommunicationWebpartStart from './components/CommunicationWebpartStart';
-import { ICommunicationWebpartStartProps } from './components/ICommunicationWebpartStartProps';
+import * as strings from 'EventDetailsWebPartStrings';
+import EventDetails from './components/EventDetails';
+import { IEventDetailsProps } from './components/IEventDetailsProps';
 
-export interface ICommunicationWebpartStartWebPartProps {
+export interface IEventDetailsWebPartProps {
   description: string;
 }
 
-export default class CommunicationWebpartStartWebPart extends BaseClientSideWebPart<ICommunicationWebpartStartWebPartProps> {
+export default class EventDetailsWebPart extends BaseClientSideWebPart <IEventDetailsWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<ICommunicationWebpartStartProps> = React.createElement(
-      CommunicationWebpartStart,
+    const element: React.ReactElement<IEventDetailsProps> = React.createElement(
+      EventDetails,
       {
         description: this.properties.description
       }

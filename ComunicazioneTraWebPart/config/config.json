@@ -9,10 +9,30 @@
           "manifest": "./src/webparts/communicationWebpartStart/CommunicationWebpartStartWebPart.manifest.json"
         }
       ]
+    },
+    "events-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/events/EventsWebPart.js",
+          "manifest": "./src/webparts/events/EventsWebPart.manifest.json"
+        }
+      ]
+    },
+    "event-details-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/eventDetails/EventDetailsWebPart.js",
+          "manifest": "./src/webparts/eventDetails/EventDetailsWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "CommunicationWebpartStartWebPartStrings": "lib/webparts/communicationWebpartStart/loc/{locale}.js"
+    "CommunicationWebpartStartWebPartStrings": "lib/webparts/communicationWebpartStart/loc/{locale}.js",
+    "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
+    "EventDetailsWebPartStrings": "lib/webparts/eventDetails/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

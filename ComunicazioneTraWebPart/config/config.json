@@ -25,6 +25,14 @@
           "manifest": "./src/webparts/eventDetails/EventDetailsWebPart.manifest.json"
         }
       ]
+    },
+    "form-controlli-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/formControlli/FormControlliWebPart.js",
+          "manifest": "./src/webparts/formControlli/FormControlliWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -33,6 +41,7 @@
     "EventsWebPartStrings": "lib/webparts/events/loc/{locale}.js",
     "EventDetailsWebPartStrings": "lib/webparts/eventDetails/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
-    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "FormControlliWebPartStrings": "lib/webparts/formControlli/loc/{locale}.js"
   }
 }

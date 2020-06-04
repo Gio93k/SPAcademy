@@ -6,23 +6,23 @@ import { DatePicker, DayOfWeek, IDatePickerStrings } from 'office-ui-fabric-reac
 import { addMonths, addYears, addDays } from 'office-ui-fabric-react/lib/utilities/dateMath/DateMath';
 import { mergeStyleSets } from 'office-ui-fabric-react/lib/Styling';
 import { Checkbox, ICheckboxProps } from 'office-ui-fabric-react/lib/Checkbox';
-import { DefaultButton, PrimaryButton, Stack, IStackTokens } from 'office-ui-fabric-react';
+import { DefaultButton, PrimaryButton, IStackTokens, Calendar, htmlElementProperties } from 'office-ui-fabric-react';
+import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
+import { Stack, IStackProps, IStackStyles } from 'office-ui-fabric-react/lib/Stack';
+import { Helper } from './Helper/Helper';
 
-export interface IButtonExampleProps {
-  disabled: boolean;
-  checked?: boolean;
-
-  minDate: Date;
-  maxDate: Date;
+export interface IState {
+  checked: boolean
+  buttonEnable: boolean
 }
 
-
-const controlClass = mergeStyleSets({
-  control: {
-    margin: '0 0 15px 0',
-    maxWidth: '300px',
-  },
-});
+const stackTokens = { childrenGap: 50 };
+const iconProps = { iconName: 'Calendar' };
+const stackStyles: Partial<IStackStyles> = { root: { width: 650 } };
+const columnProps: Partial<IStackProps> = {
+  tokens: { childrenGap: 15 },
+  styles: { root: { width: 300 } },
+};
 
 const DayPickerStrings: IDatePickerStrings = {
   months: [
@@ -52,78 +52,89 @@ const DayPickerStrings: IDatePickerStrings = {
   prevYearAriaLabel: 'Go to previous year',
   nextYearAriaLabel: 'Go to next year',
   closeButtonAriaLabel: 'Close date picker',
-  isRequiredErrorMessage: 'Field is required.',
-  invalidInputErrorMessage: 'Invalid date format.',
 };
-const today: Date = new Date(Date.now());
-const minDate: Date = today;
-const maxDate: Date = addDays(today, 90);
-var fixDate = (minDate, maxDate) => { minDate = minDate; maxDate = maxDate }
 
-// const description = `When date boundaries are set (via minDate and maxDate props) the DatePicker will not allow
-//  out-of-bounds dates to be picked or entered. In this example, the allowed dates are
-//  ${minDate.toLocaleDateString()}-${maxDate.toLocaleDateString()}`;
-const firstDayOfWeek = DayOfWeek.Sunday;
-export default class FormControlli extends React.Component<IFormControlliProps, IButtonExampleProps> {
+const controlClass = mergeStyleSets({
+  control: {
+    margin: '0 0 15px 0',
+    maxWidth: '300px',
+  },
+});
+
+export default class FormControlli extends React.Component<IFormControlliProps, IState> {
+  private nome: string;
+  private cognome: string;
+  private data: Date;
+  private email: string;
 
   constructor(props) {
     super(props);
     this.state = {
-      disabled: true,
-      minDate: today,
-      maxDate: today
+      checked: false,
+      buttonEnable: false
+    };
+
+    this.handleChangeNome = this.handleChangeNome.bind(this);
+  }
+
+  handleChangeNome = (event, value) => {
+    this.nome = value;
+    this.validate();
+  }
+
+  handleChangeCognome = (event, value) => {
+    this.cognome = value
+    this.validate();
+  }
+
+  handleChangeEmail = (event, value) => {
+    this.email = value
+    this.validate();
+  }
+
+  handleChangeDate = (data: Date) => {
+    this.data = data
+    this.validate();
+  }
+
+  validate = () => {
+    if (this.nome && this.cognome && this.data && this.email) {
+      this.setState({ buttonEnable: true })
+    }
+    else {
+      this.setState({ buttonEnable: false })
     }
   }
-
-  _onChange = (ev: React.FormEvent<HTMLElement>, isChecked: boolean) => {
-    this.setState({ disabled: !isChecked })
-    //console.log(`The option has been changed to ${isChecked}.`);
+  // form registrazione
+  _saveToList = async () => {
+    //chiamata a lista
+    var nomeLista = "ListaProva";
+    const _item = await Helper.writeListItem(this.nome, this.cognome, this.data.toISOString(), this.email, nomeLista);
   }
-  // _onChangeBis = () => {
-  //   this.setState({ minDate: minDate })
-  //   this.setState({ maxDate: maxDate })
-  //   //console.log(`The option has been changed to ${isChecked}.`);
-  // }
-
-  _click(): void {
-    alert("ha cliccato")
-  }
-
 
   public render(): React.ReactElement<IFormControlliProps> {
     return (
       <div>
-        {/* <p>{description}</p> */}
-        <DatePicker
-          className={controlClass.control}
-          isRequired={false}
-          firstDayOfWeek={firstDayOfWeek}
-          strings={DayPickerStrings}
-          placeholder="Select a date..."
-          ariaLabel="Select a date"
-          minDate={minDate}
-          allowTextInput={false}
+        <h1> Registrati</h1>
 
+        <Stack horizontal tokens={stackTokens} styles={stackStyles}>
+          <Stack {...columnProps}>
+            <TextField label="Nome" onChange={this.handleChangeNome} />
+            <TextField label="Cognome" onChange={this.handleChangeCognome} />
 
-        />
-        <DatePicker
-          className={controlClass.control}
-          isRequired={false}
-          firstDayOfWeek={firstDayOfWeek}
-          strings={DayPickerStrings}
-          placeholder="Select a date..."
-          ariaLabel="Select a date"
-          maxDate={maxDate}
-          allowTextInput={true}
+            <DatePicker
+              className={controlClass.control}
+              strings={DayPickerStrings}
+              placeholder="Select a date..."
+              ariaLabel="Select a date"
+              onSelectDate={this.handleChangeDate}
+            />
 
-
-        />
-
-        <Checkbox className={controlClass.control} label=
-          "I have read the information on the processing of personal data" onChange={this._onChange} />
-
-        <PrimaryButton text="Confirm" onClick={this._click} allowDisabledFocus disabled={this.state.disabled} />
-        {/* <PrimaryButton text="Confirm" onClick={_click} /> */}
+            <TextField label="Email" required onChange={this.handleChangeEmail} />
+            <TextField label="Password" required type='password' />
+            <PrimaryButton text="Primary" onClick={this._saveToList} allowDisabledFocus disabled={!this.state.buttonEnable} />
+          </Stack>
+        </Stack>
       </div>
     );
 

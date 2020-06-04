@@ -10,13 +10,24 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'FormControlliWebPartStrings';
 import FormControlli from './components/FormControlli';
 import { IFormControlliProps } from './components/IFormControlliProps';
+import { setup as pnpSetup } from "@pnp/common";
 
 export interface IFormControlliWebPartProps {
   description: string;
 }
 
 export default class FormControlliWebPart extends BaseClientSideWebPart<IFormControlliWebPartProps> {
+  protected onInit(): Promise<void> {
 
+    return super.onInit().then(_ => {
+
+      // other init code may be present
+
+      pnpSetup({
+        spfxContext: this.context
+      });
+    });
+  }
   public render(): void {
     const element: React.ReactElement<IFormControlliProps> = React.createElement(
       FormControlli,
